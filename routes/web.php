@@ -19,6 +19,14 @@ Route::middleware('auth')->group(function (){
                 Route::resource('/product', \App\Http\Controllers\ProductController::class);
             });
         });
+
+        Route::group(['prefix'=>'/order','as'=>'order.'], function (){
+            Route::get('/basket', [\App\Http\Controllers\OrderController::class, 'basket'])->name('basket');
+        });
     });
+
+    Route::get('/cabinet',[\App\Http\Controllers\UserController::class, 'cabinet'])->name('cabinet');
+    Route::get('/cabinet/edit',[\App\Http\Controllers\UserController::class, 'cabinetEdit'])->name('cabinetEdit');
+    Route::post('/cabinet/edit',[\App\Http\Controllers\UserController::class, 'cabinetEditPost']);
     Route::get('/logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 });
