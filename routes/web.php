@@ -2,15 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [\App\Http\Controllers\ProductController::class, 'indexMain'])->name('welcome');
 
 Route::get('/login', [\App\Http\Controllers\UserController::class, 'login'])->name('login');
 Route::post('/login', [\App\Http\Controllers\UserController::class, 'loginPost']);
 
 Route::get('/register',[\App\Http\Controllers\UserController::class, 'register'])->name('register');
 Route::post('/register',[\App\Http\Controllers\UserController::class, 'registerPost']);
+Route::get('/product/{product}', [\App\Http\Controllers\ProductController::class, 'firstProduct'])->name('product');
 
 Route::middleware('auth')->group(function (){
     Route::middleware('role:user,admin')->group(function (){
@@ -22,6 +21,7 @@ Route::middleware('auth')->group(function (){
 
         Route::group(['prefix'=>'/order','as'=>'order.'], function (){
             Route::get('/basket', [\App\Http\Controllers\OrderController::class, 'basket'])->name('basket');
+            Route::get('/addBasket', [\App\Http\Controllers\OrderController::class, 'addBasket'])->name('addBasket');
         });
     });
 
